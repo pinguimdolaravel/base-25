@@ -67,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
         // ---
         // Automatically eager load relationships
         // Luan:: cuidado com tabelas grandes pq nao filtra por coluna
-        Model::automaticallyEagerLoadRelationships();
+        // Model::automaticallyEagerLoadRelationships();
     }
 
     /**
