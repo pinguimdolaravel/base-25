@@ -15,7 +15,7 @@
             <form wire:submit="login" class="space-y-6">
                 <div class="space-y-5">
                     <x-pin wire:model="code" length="6" label="Insert the code"
-                        hint="We sent a 5-digit code to your email." />
+                        hint="We sent a 6-digit code to your email." />
                 </div>
 
                 <div>
