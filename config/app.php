@@ -125,4 +125,6 @@ return [
         'store'  => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'laravel_sail' => env('LARAVEL_SAIL', false),
+
 ];

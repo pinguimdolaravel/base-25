@@ -44,16 +44,25 @@ class User extends Authenticatable implements Auditable
         ];
     }
 
+    /**
+     * @return BelongsToMany<Permission,$this>
+     */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class);
     }
 
+    /**
+     * @return BelongsToMany<Role,$this>
+     */
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
+    /**
+     * @return HasMany<Login,$this>
+     */
     public function logins(): HasMany
     {
         return $this->hasMany(Login::class);
