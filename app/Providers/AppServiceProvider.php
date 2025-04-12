@@ -86,7 +86,9 @@ class AppServiceProvider extends ServiceProvider
      */
     private function configUrls(): void
     {
-        URL::forceHttps();
+       if(app()->isProduction() || env('LARAVEL_SAIL') !== 1) {
+            URL::forceScheme('https');
+        }
     }
 
     /**
