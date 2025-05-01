@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Http\Middleware\Check2FASession;
+use App\Http\Controllers\Auth\MagicLinkController;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\TwoFa;
 use App\Livewire\Dashboard;
@@ -28,6 +28,7 @@ Route::match(['get', 'post'], '/logout', function () {
 // Authenticated Routes
 // ------------------------------------------------
 Route::get('/2fa', TwoFa::class)->name('2fa');
-Route::middleware(['auth', Check2FASession::class])->group(function (): void {
+Route::get('/2fa/magic-link/{token}', MagicLinkController::class)->name('2fa.magic-link');
+Route::middleware(['auth'])->group(function (): void {
     Route::get('/', Dashboard::class)->name('dashboard');
 });
