@@ -1,28 +1,30 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Livewire\Auth;
 
-use App\Brain\Auth\Processes\AuthProcess;
+use App\Brain\Auth\Tasks\SendMagicLink;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class Login extends Component
 {
     public string $email = '';
 
-    public string $password = '';
-
-    public bool $remember = false;
+    public bool $showMessage = false;
 
     public function login()
     {
-        AuthProcess::dispatch([
-            'email'    => $this->email,
-            'password' => $this->password,
+        // converter para um processo
+        // 1. LoginRateLimit
+        // 2. SendMagicLink
+
+        SendMagicLink::dispatch([
+            'email' => $this->email,
         ]);
 
-        return redirect()->intended(route('dashboard'));
+        $this->showMessage = true;
     }
 
     public function render()

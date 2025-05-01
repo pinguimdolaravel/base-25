@@ -63,6 +63,11 @@ class AppServiceProvider extends ServiceProvider
         // --
         // Make sure that all properties being called exists in the model
         Model::shouldBeStrict();
+
+        // ---
+        // Automatically eager load relationships
+        // Luan:: cuidado com tabelas grandes pq nao filtra por coluna
+        // Model::automaticallyEagerLoadRelationships();
     }
 
     /**
