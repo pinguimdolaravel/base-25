@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use App\Http\Controllers\Auth\MagicLinkController;
+use App\Http\Middleware\CheckImpersonate;
 use App\Livewire\Pages;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,7 @@ Route::match(['get', 'post'], '/logout', function () {
 // ------------------------------------------------
 // Authenticated Routes
 // ------------------------------------------------
-Route::middleware(['auth'])->group(function (): void {
+Route::middleware(['auth', CheckImpersonate::class])->group(function (): void {
     Route::get('/', Pages\Dashboard::class)->name('dashboard');
     Route::get('/users', Pages\Users::class)->name('users');
 });

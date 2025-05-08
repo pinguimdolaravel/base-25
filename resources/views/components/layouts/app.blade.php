@@ -11,6 +11,7 @@
 </head>
 
 <body x-cloak>
+    <livewire:users.stop-impersonation />
     <x-toast />
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
         <!-- Sidebar -->

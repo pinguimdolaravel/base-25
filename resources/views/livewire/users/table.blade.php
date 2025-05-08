@@ -8,6 +8,9 @@
                 <x-button.circle color="red" sm flat icon="trash"
                     wire:click="$dispatch('users::destroy', {id : '{{ $row->id }}'})" />
             @endif
+
+            <x-button.circle color="blue" sm flat icon="shield-check"
+                wire:click="$dispatch('users::impersonate', {id : '{{ $row->id }}'})" />
         @endinteract
     </x-table>
 </div>
