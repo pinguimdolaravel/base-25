@@ -13,7 +13,7 @@ class MagicLinkController extends Controller
     public function __invoke(string $token)
     {
         try {
-            AuthProcess::dispatch([
+            AuthProcess::dispatchSync([
                 'token' => $token,
             ]);
 

@@ -1,8 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-namespace App\Livewire\Auth;
+namespace App\Livewire\Pages;
 
 use App\Brain\Auth\Tasks\SendMagicLink;
 use Livewire\Attributes\Layout;
@@ -27,6 +27,7 @@ class Login extends Component
         $this->showMessage = true;
     }
 
+    #[Layout('components.layouts.guest')]
     public function render()
     {
         return view('livewire.auth.login');

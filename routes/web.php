@@ -3,18 +3,17 @@
 declare(strict_types = 1);
 
 use App\Http\Controllers\Auth\MagicLinkController;
-use App\Livewire\Auth\Login;
-use App\Livewire\Auth\TwoFa;
-use App\Livewire\Dashboard;
+use App\Livewire\Pages;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // ------------------------------------------------
 // Auth Routes
 // ------------------------------------------------
-Route::get('/login', Login::class)->name('login');
+Route::get('/login', Pages\Login::class)->name('login');
 Route::get('/password-request', fn (): string => 'password-request')->name('password.request');
 Route::get('/register', fn (): string => 'register')->name('register');
+Route::get('/2fa/magic-link/{token}', MagicLinkController::class)->name('2fa.magic-link');
 Route::match(['get', 'post'], '/logout', function () {
     session()->invalidate();
     session()->flush();
@@ -27,8 +26,7 @@ Route::match(['get', 'post'], '/logout', function () {
 // ------------------------------------------------
 // Authenticated Routes
 // ------------------------------------------------
-Route::get('/2fa', TwoFa::class)->name('2fa');
-Route::get('/2fa/magic-link/{token}', MagicLinkController::class)->name('2fa.magic-link');
 Route::middleware(['auth'])->group(function (): void {
-    Route::get('/', Dashboard::class)->name('dashboard');
+    Route::get('/', Pages\Dashboard::class)->name('dashboard');
+    Route::get('/users', Pages\Users::class)->name('users');
 });
