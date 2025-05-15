@@ -1,10 +1,11 @@
 <div>
     Dashboard
 
-    <div class="font-mono bg-black text-green-600 text-4xl p-20">
-        user_id: {{ auth()->user()->id }}<br>
-        impersonate_as: {{ session('impersonate_as') }}
-
+    <div class="grid grid-cols-3 gap-4">
+        @for ($i = 0; $i < 12; $i++)
+            <livewire:dashboard-card :num="$i" />
+        @endfor
 
     </div>
+
 </div>
