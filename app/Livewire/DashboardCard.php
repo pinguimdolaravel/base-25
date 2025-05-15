@@ -33,9 +33,6 @@ class DashboardCard extends Component
 
     public function render()
     {
-        if ($this->num) {
-            sleep($this->num);
-        }
 
         return view('livewire.dashboard-card');
     }
