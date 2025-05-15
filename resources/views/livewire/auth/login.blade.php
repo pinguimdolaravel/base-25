@@ -12,20 +12,20 @@
         </div>
 
         <x-card class="backdrop-blur-xl bg-white/90 dark:bg-gray-800/90 shadow-xl rounded-xl">
-            <form wire:submit="login" class="space-y-6">
+            <form wire:submit="handle" class="space-y-6">
                 <div class="space-y-5">
                     <x-input label="Email address" wire:model="email" type="email" icon="envelope"
                         class="block w-full dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
                         placeholder="your@email.com" required />
 
-                    @if ($showMessage)
-                        <x-alert icon="exclamation-triangle" text="You will receive an email with a link to login."
-                            color="green" outline />
-                    @endif
-
+                    <x-input label="Password" wire:model="password" type="password" icon="key"
+                        class="block w-full dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                        placeholder="Enter your password" required />
                 </div>
 
                 <div class="flex items-center justify-between">
+                    <x-checkbox label="Remember me" wire:model="remember" class="text-sm dark:text-gray-300" />
+
                     <x-link href="{{ route('password.request') }}"
                         class="text-sm font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300">
                         Forgot your password?

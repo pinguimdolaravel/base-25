@@ -20,6 +20,7 @@ class CreateAuditsTable extends Migration
             $morphPrefix = config('audit.user.morph_prefix', 'user');
 
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('impersonator_id')->nullable();
             $table->string($morphPrefix . '_type')->nullable();
             $table->unsignedBigInteger($morphPrefix . '_id')->nullable();
             $table->string('event');

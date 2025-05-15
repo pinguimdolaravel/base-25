@@ -14,12 +14,8 @@ class Login extends Component
 
     public bool $showMessage = false;
 
-    public function login()
+    public function handle():void
     {
-        // converter para um processo
-        // 1. LoginRateLimit
-        // 2. SendMagicLink
-
         SendMagicLink::dispatch([
             'email' => $this->email,
         ]);

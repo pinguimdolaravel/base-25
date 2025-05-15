@@ -30,7 +30,7 @@ code_snippet:
   above: 9
   below: 3
 logs:
-  info: false
+  info: true
   warning: false
   emergency: false
   alert: false

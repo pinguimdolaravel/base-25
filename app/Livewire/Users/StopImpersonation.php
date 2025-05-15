@@ -26,6 +26,7 @@ class StopImpersonation extends Component
     public function handle(): void
     {
         Session::forget('impersonate_as');
+        Session::forget('impersonator_id');
 
         $this->redirectRoute('dashboard');
     }
