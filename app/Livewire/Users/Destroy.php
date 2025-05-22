@@ -1,19 +1,21 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Livewire\Users;
 
 use App\Brain\User\Tasks\DestroyUser;
 use App\Models\User;
-use Livewire\Component;
-use Livewire\Attributes\On;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
+use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
 class Destroy extends Component
 {
     use Interactions;
+
     public ?int $id = null;
 
     public ?string $name = null;
@@ -26,7 +28,7 @@ class Destroy extends Component
         $user        = User::findOrFail($id);
         $this->modal = true;
         $this->id    = $user->id;
-        $this->name    = $user->name;
+        $this->name  = $user->name;
     }
 
     public function handle(): void
@@ -34,7 +36,7 @@ class Destroy extends Component
         try {
             DestroyUser::dispatch([
                 'loggedUserId' => Auth::id(),
-                'id' => $this->id,
+                'id'           => $this->id,
             ]);
 
             $this->toast()->success('User deleted!')->send();
@@ -47,7 +49,7 @@ class Destroy extends Component
         }
     }
 
-    public function render()
+    public function render():View
     {
         return view('livewire.users.destroy');
     }

@@ -5,8 +5,10 @@ declare(strict_types = 1);
 namespace App\Livewire;
 
 use App\Models\Role;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Playground extends Component
@@ -20,15 +22,11 @@ class Playground extends Component
             : $role->name;
         $role->name = "Updated Role :: $randomNumber :: $originalName";
         $role->save();
-        Context::add('testing', 123);
 
-        Log::info('Role updated', [
-            'id'   => $role->id,
-            'name' => $role->name,
-        ]);
+        Log::info('Role updated');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.playground');
     }

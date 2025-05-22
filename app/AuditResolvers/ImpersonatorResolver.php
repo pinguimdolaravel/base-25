@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\AuditResolvers;
 
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Context;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Contracts\Resolver;
 
@@ -12,6 +12,6 @@ class ImpersonatorResolver implements Resolver
 {
     public static function resolve(Auditable $auditable)
     {
-        return Session::get('impersonator_id') ?? null;
+        return Context::get('impersonator_id', null);
     }
 }

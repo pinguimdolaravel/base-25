@@ -182,7 +182,7 @@ return [
     */
 
     'queue' => [
-        'enable'     => false,
+        'enable'     => true,
         'connection' => 'database',
         'queue'      => 'default',
         'delay'      => 0,

@@ -5,6 +5,8 @@ declare(strict_types = 1);
 namespace App\Livewire\Users;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -25,13 +27,13 @@ class StopImpersonation extends Component
 
     public function handle(): void
     {
-        Session::forget('impersonate_as');
-        Session::forget('impersonator_id');
+        Session::forget(['impersonate_as', 'impersonator_id']);
+        Context::forget(['impersonator_id', 'impersonate_as']);
 
         $this->redirectRoute('dashboard');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.users.stop-impersonation');
     }

@@ -6,6 +6,7 @@ namespace App\Livewire\Users;
 
 use App\Brain\User\Tasks\SaveUser;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -16,6 +17,8 @@ class Edit extends Component
     use Interactions;
 
     public bool $modal = false;
+
+    public ?int $id = null;
 
     public ?User $user = null;
 
@@ -29,6 +32,7 @@ class Edit extends Component
     public function open(int $id): void
     {
         $this->user  = User::findOrFail($id);
+        $this->id    = $this->user->id;
         $this->name  = $this->user->name;
         $this->email = $this->user->email;
 
@@ -50,7 +54,7 @@ class Edit extends Component
         $this->dispatch('users::refresh');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.users.edit');
     }

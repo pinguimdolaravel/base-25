@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Livewire\Pages;
 
 use App\Brain\Auth\Tasks\SendMagicLink;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -14,7 +15,7 @@ class Login extends Component
 
     public bool $showMessage = false;
 
-    public function handle():void
+    public function handle(): void
     {
         SendMagicLink::dispatch([
             'email' => $this->email,
@@ -24,7 +25,7 @@ class Login extends Component
     }
 
     #[Layout('components.layouts.guest')]
-    public function render()
+    public function render():View
     {
         return view('livewire.auth.login');
     }

@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Providers;
 
 use App\Enums\Can;
+use App\Http\Middleware\CheckImpersonate;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Opcodes\LogViewer\Facades\LogViewer;
 use Override;
 
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configUrls();
         $this->configDate();
         $this->configGates();
+        $this->configLivewire();
     }
 
     /**
@@ -116,5 +119,12 @@ class AppServiceProvider extends ServiceProvider
                 }
             );
         }
+    }
+
+    private function configLivewire(): void
+    {
+        Livewire::addPersistentMiddleware([
+            CheckImpersonate::class,
+        ]);
     }
 }

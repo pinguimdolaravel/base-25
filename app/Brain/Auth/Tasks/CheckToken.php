@@ -22,7 +22,7 @@ class CheckToken extends Task
 
             $this->cancelProcess();
 
-            throw new InvalidToken();
+            throw new InvalidToken;
         }
 
         return $this;

@@ -21,6 +21,9 @@ class CheckImpersonate
     public function handle(Request $request, Closure $next): Response
     {
         if ($id = Session::get('impersonate_as')) {
+            Context::add('impersonator_id', Auth::id());
+            Context::add('impersonate_as', $id);
+
             Auth::onceUsingId($id);
         }
 

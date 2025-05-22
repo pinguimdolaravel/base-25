@@ -7,6 +7,7 @@ namespace App\Livewire\Users;
 use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
+use Illuminate\Pagination\AbstractPaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -18,10 +19,13 @@ class Table extends Component
 
     public ?string $search = null;
 
+    /**
+     * @return array<array-key, array{index: string, label?: string}>
+     */
     #[Computed]
     public function headers(): array
     {
-        return  [
+        return [
             ['index' => 'id', 'label' => '#'],
             ['index' => 'name', 'label' => 'Member'],
             ['index' => 'email', 'label' => 'Email'],
@@ -29,10 +33,13 @@ class Table extends Component
         ];
     }
 
+    /**
+     * @return \Illuminate\Pagination\LengthAwarePaginator<int, User>
+     */
     #[Computed]
-    public function rows()
+    public function rows(): AbstractPaginator
     {
-        return  User::query()
+        return User::query()
             ->when($this->search, function (Builder $query) {
                 return $query
                     ->where('name', 'like', "%{$this->search}%")

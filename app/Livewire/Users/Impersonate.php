@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Livewire\Users;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
@@ -44,7 +45,7 @@ class Impersonate extends Component
         $this->redirectRoute('dashboard');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.users.impersonate');
     }

@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Brain\User\Tasks;
 
-use Brain\Task;
 use App\Models\User;
+use Brain\Task;
 
 /**
  * Task DestroyUser
