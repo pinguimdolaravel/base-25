@@ -1,6 +1,8 @@
 <div>
     <x-table :headers="$this->headers" :rows="$this->rows" filter>
         @interact('column_action', $row)
+            <x-button.circle color="gray" sm flat icon="eye" href="{{ route('users.show', $row->id) }}" />
+
             <x-button.circle color="gray" sm flat icon="pencil"
                 wire:click="$dispatch('users::edit', {id : '{{ $row->id }}'})" />
 

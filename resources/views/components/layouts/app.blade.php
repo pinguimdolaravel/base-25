@@ -29,7 +29,7 @@
                         active="{{ request()->routeIs('dashboard') }}">
                         Dashboard
                     </x-nav-link>
-                    <x-nav-link href="{{ route('users') }}" icon="users" active="{{ request()->routeIs('users') }}">
+                    <x-nav-link href="{{ route('users.index') }}" icon="users" active="{{ request()->routeIs('users.*') }}">
                         Users
                     </x-nav-link>
                     <x-nav-link href="#" icon="cog">
