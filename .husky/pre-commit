@@ -1,0 +1,86 @@
+#!/bin/bash
+
+# Colors
+NC='\033[0m'        # No color (reset)
+BBlue='\033[1;34m'   # Blue
+BRed='\033[1;31m'    # Red
+BGreen='\033[1;32m'  # Green
+
+# Force the use of colors in commands that support the `--color=always` option
+export TERM=xterm-256color
+
+# Function to display success or error messages
+show_message() {
+    local type="$1"
+    local message="$2"
+
+    if [ "$type" = "error" ]; then
+        printf "${BRed}%s${NC}\n" "$message"
+    else
+        printf "${BGreen}%s${NC}\n" "$message"
+    fi
+}
+
+# Check if we're running on Sail
+IS_SAIL=0
+if [ -f ".env" ]; then
+    if grep -q "LARAVEL_SAIL=1" .env; then
+        IS_SAIL=1
+    fi
+fi
+
+# Define the PHP command based on the check
+if [ "$IS_SAIL" -eq 1 ]; then
+    PHP_CMD="./vendor/bin/sail"
+    show_message "success" "Using Laravel Sail for command execution"
+else
+    PHP_CMD="php"
+    show_message "success" "Using local PHP for command execution"
+fi
+
+# Run Larastan
+printf "${BBlue}Running Larastan...${NC}\n"
+if [ "$IS_SAIL" -eq 1 ]; then
+    $PHP_CMD bin phpstan
+else
+    ./vendor/bin/phpstan
+fi
+
+if [ $? -ne 0 ]; then
+    show_message "error" "The code does not meet the minimum required guidelines. Run LARASTAN and fix the inconsistencies 😉"
+    exit 1
+fi
+
+# Run Laravel tests
+printf "${BBlue}Running tests...${NC}\n"
+if [ "$IS_SAIL" -eq 1 ]; then
+
+    $PHP_CMD test --parallel
+else
+    $PHP_CMD artisan test --parallel
+fi
+
+if [ $? -ne 0 ]; then
+    show_message "error" "Tests failed. Fix them before continuing... 😉"
+    exit 1
+fi
+
+# Format each modified file using Laravel Pint
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".php\{0,1\}$") || true
+
+if [ -n "$STAGED_FILES" ]; then
+    printf "${BBlue}Running Laravel Pint on modified files...${NC}\n"
+    for FILE in $STAGED_FILES; do
+        if [ "$IS_SAIL" -eq 1 ]; then
+            $PHP_CMD pint "${FILE}" > /dev/null 2>&1
+        else
+            ./vendor/bin/pint "${FILE}" > /dev/null 2>&1
+        fi
+        git add "${FILE}"
+    done
+    show_message "success" "Laravel Pint successfully executed on modified files."
+else
+    show_message "success" "No PHP files modified to format."
+fi
+
+exit 0

@@ -125,4 +125,14 @@ return [
         'store'  => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'laravel_sail' => env('LARAVEL_SAIL', false),
+
+
+/***
+ * |--------------------------------------------------------------------------|
+ *  FORCE HTTPS
+ * |--------------------------------------------------------------------------|
+ */
+  'force_https' => env('FORCE_HTTPS', false),
+
 ];
