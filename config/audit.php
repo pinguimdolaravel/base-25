@@ -44,9 +44,10 @@ return [
     |
     */
     'resolvers' => [
-        'ip_address' => OwenIt\Auditing\Resolvers\IpAddressResolver::class,
-        'user_agent' => OwenIt\Auditing\Resolvers\UserAgentResolver::class,
-        'url'        => OwenIt\Auditing\Resolvers\UrlResolver::class,
+        'ip_address'      => OwenIt\Auditing\Resolvers\IpAddressResolver::class,
+        'user_agent'      => OwenIt\Auditing\Resolvers\UserAgentResolver::class,
+        'url'             => OwenIt\Auditing\Resolvers\UrlResolver::class,
+        'impersonator_id' => App\AuditResolvers\ImpersonatorResolver::class,
     ],
 
     /*
@@ -181,7 +182,7 @@ return [
     */
 
     'queue' => [
-        'enable'     => true,
+        'enable'     => false,
         'connection' => 'database',
         'queue'      => 'default',
         'delay'      => 0,

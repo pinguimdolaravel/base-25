@@ -39,6 +39,7 @@ class Impersonate extends Component
     public function handle(): void
     {
         Session::put('impersonate_as', $this->id);
+        Session::put('impersonator_id', Auth::id());
 
         $this->redirectRoute('dashboard');
     }

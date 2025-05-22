@@ -7,6 +7,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckImpersonate
@@ -18,7 +20,7 @@ class CheckImpersonate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($id = session()->get('impersonate_as')) {
+        if ($id = Session::get('impersonate_as')) {
             Auth::onceUsingId($id);
         }
 
