@@ -49,7 +49,7 @@ class Destroy extends Component
         }
     }
 
-    public function render():View
+    public function render(): View
     {
         return view('livewire.users.destroy');
     }
