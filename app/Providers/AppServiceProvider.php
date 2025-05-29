@@ -6,8 +6,12 @@ namespace App\Providers;
 
 use App\Enums\Can;
 use App\Http\Middleware\CheckImpersonate;
+use App\MeuBlueprint;
+use App\Models\Role;
+use App\Observers\AdminObserver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -15,7 +19,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use Opcodes\LogViewer\Facades\LogViewer;
 use Override;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Role::observe(AdminObserver::class);
         $this->setupLogViewer();
         $this->configModels();
         $this->configCommands();

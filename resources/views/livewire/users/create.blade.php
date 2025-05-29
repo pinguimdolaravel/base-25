@@ -7,5 +7,5 @@
     <x-slot:footer>
         <x-button type="cancel" text="Cancel" color="secondary" sm wire:click="$set('modal', false)" />
         <x-button form="create-user-form" type="submit" text="Create" sm wire:loading.attr="disabled" />
-    </x-slot:footer>
+    </x-slot>
 </x-modal>

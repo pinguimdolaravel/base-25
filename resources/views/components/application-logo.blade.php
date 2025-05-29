@@ -1,4 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" {{ $attributes->merge(['class' => $class]) }} viewBox="0 0 120 120" fill="none">
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    {{ $attributes->merge(['class' => $class]) }}
+    viewBox="0 0 120 120"
+    fill="none"
+>
     <!-- Main hexagon -->
     <path d="M60 10L105 35V85L60 110L15 85V35L60 10Z" class="fill-primary-600" fill-opacity="0.9" />
 

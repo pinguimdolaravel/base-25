@@ -1,5 +1,5 @@
 <div>
     Dashboard
-    <br>
+    <br />
     <livewire:playground />
 </div>
