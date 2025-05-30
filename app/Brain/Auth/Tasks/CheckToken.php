@@ -20,9 +20,7 @@ class CheckToken extends Task
         if ($this->token != session('magic_link_token')) {
             Log::info('Invalid token', ['token' => $this->token]);
 
-            $this->cancelProcess();
-
-            throw new InvalidToken;
+            throw new InvalidToken();
         }
 
         return $this;

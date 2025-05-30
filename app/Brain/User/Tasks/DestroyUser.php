@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Brain\User\Tasks;
 
@@ -22,6 +22,8 @@ class DestroyUser extends Task
         }
 
         $user = User::findOrFail($this->id);
+
+        $user->email = 'deleted-' . $user->id . '----' . $user->email;
 
         $user->delete();
 
