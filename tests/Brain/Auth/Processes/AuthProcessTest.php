@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use App\Brain\Auth\Exceptions\InvalidToken;
 use App\Brain\Auth\Processes\AuthProcess;

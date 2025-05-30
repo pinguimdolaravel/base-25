@@ -1,11 +1,13 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\URL;
+declare(strict_types = 1);
+
 use App\Brain\Auth\Tasks\SendMagicLink;
+use App\Models\User;
 use App\Notifications\MagicLinkNotification;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 
 test('if user doesnt exists log and return', function () {
     Notification::fake();
@@ -41,7 +43,7 @@ it('should send a magic link notification', function () {
 
     SendMagicLink::dispatchSync(['email' => $user->email]);
 
-    Notification::assertSentTo($user, \App\Notifications\MagicLinkNotification::class);
+    Notification::assertSentTo($user, MagicLinkNotification::class);
 });
 
 it('should generate a valid magic link', function () {

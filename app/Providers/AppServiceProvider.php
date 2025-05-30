@@ -6,12 +6,8 @@ namespace App\Providers;
 
 use App\Enums\Can;
 use App\Http\Middleware\CheckImpersonate;
-use App\MeuBlueprint;
-use App\Models\Role;
-use App\Observers\AdminObserver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -37,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Role::observe(AdminObserver::class);
         $this->setupLogViewer();
         $this->configModels();
         $this->configCommands();

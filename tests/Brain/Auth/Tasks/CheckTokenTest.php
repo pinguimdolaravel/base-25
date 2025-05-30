@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 use App\Brain\Auth\Tasks\CheckToken;
 use Illuminate\Support\Facades\Log;
 
 it('should throw an exception if token doesnt match with the session', function () {
     CheckToken::dispatch(['token' => 'invalid_token']);
-})->throws(\App\Brain\Auth\Exceptions\InvalidToken::class);
+})->throws(App\Brain\Auth\Exceptions\InvalidToken::class);
 
 it('should log', function () {
     Log::shouldReceive('info')
@@ -13,4 +15,4 @@ it('should log', function () {
         ->with('Invalid token', ['token' => 'invalid_token']);
 
     CheckToken::dispatchSync(['token' => 'invalid_token']);
-})->throws(\App\Brain\Auth\Exceptions\InvalidToken::class);
+})->throws(App\Brain\Auth\Exceptions\InvalidToken::class);

@@ -29,7 +29,6 @@ Route::match(['get', 'post'], '/logout', function () {
 // Authenticated Routes
 // ------------------------------------------------
 Route::middleware(['auth', CheckImpersonate::class])->group(function (): void {
-
     Route::get('/', Pages\Dashboard::class)->name('dashboard');
     Route::get('/users', Pages\Users\Index::class)->name('users.index');
     Route::get('/users/{user}', Pages\Users\Show::class)->name('users.show');
