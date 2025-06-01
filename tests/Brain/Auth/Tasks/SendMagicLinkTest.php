@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 
-test('if user doesnt exists log and return', function () {
+test('if user doesnt exists log and return', function (): void {
     Notification::fake();
 
     $email = 'joe@doe.com';
@@ -27,7 +27,7 @@ test('if user doesnt exists log and return', function () {
     Notification::assertNothingSent();
 });
 
-it('should update the session with the magic_link_token', function () {
+it('should update the session with the magic_link_token', function (): void {
     $user = User::factory()->create();
 
     SendMagicLink::dispatchSync(['email' => $user->email]);
@@ -36,7 +36,7 @@ it('should update the session with the magic_link_token', function () {
         ->and(session('user_id'))->toBe($user->id);
 });
 
-it('should send a magic link notification', function () {
+it('should send a magic link notification', function (): void {
     Notification::fake();
 
     $user = User::factory()->create();
@@ -46,7 +46,7 @@ it('should send a magic link notification', function () {
     Notification::assertSentTo($user, MagicLinkNotification::class);
 });
 
-it('should generate a valid magic link', function () {
+it('should generate a valid magic link', function (): void {
     Notification::fake();
 
     $user = User::factory()->create();
@@ -56,7 +56,7 @@ it('should generate a valid magic link', function () {
     Notification::assertSentTo(
         $user,
         MagicLinkNotification::class,
-        function (MagicLinkNotification $notification) {
+        function (MagicLinkNotification $notification): true {
             $link = $notification->link;
 
             expect(

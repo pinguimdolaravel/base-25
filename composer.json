@@ -18,7 +18,7 @@
         "opcodesio/log-viewer": "^3.14",
         "owen-it/laravel-auditing": "^14",
         "r2luna/brain": "^1.1",
-        "tallstackui/tallstackui": "^2.0.0"
+        "tallstackui/tallstackui": "^2.8.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

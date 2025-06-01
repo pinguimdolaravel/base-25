@@ -40,11 +40,9 @@ class Table extends Component
     public function rows(): AbstractPaginator
     {
         return User::query()
-            ->when($this->search, function (Builder $query) {
-                return $query
-                    ->where('name', 'like', "%{$this->search}%")
-                    ->orWhere('email', 'like', "%{$this->search}%");
-            })
+            ->when($this->search, fn (Builder $query) => $query
+                ->where('name', 'like', "%{$this->search}%")
+                ->orWhere('email', 'like', "%{$this->search}%"))
             ->paginate($this->quantity)
             ->withQueryString();
     }

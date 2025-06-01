@@ -3,74 +3,96 @@
 declare(strict_types = 1);
 
 use App\Brain\Auth\Tasks\Login;
+use App\Brain\Auth\Tasks\SendMagicLink;
 use App\Models\User;
+use App\Notifications\MagicLinkNotification;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
-it('should be able to login', function (): void {
+it('should send magic link notification to the user', function (): void {
+    Notification::fake();
+
     $user = User::factory()->create();
 
-    Login::dispatch([
-        'email'    => $user->email,
-        'password' => 'password',
+    SendMagicLink::dispatch([
+        'email' => $user->email,
     ]);
+
+    Notification::assertSentTo(
+        notifiable: $user,
+        notification: MagicLinkNotification::class
+    );
+});
+
+it("should be able to login with magic link", function (): void {
+    Notification::fake();
+
+    $user = User::factory()->create();
+
+    $token = Str::random(16);
+
+    session()->put('magic_link_token', $token);
+
+    session()->put('user_id', $user->id);
+
+    $link = URL::temporarySignedRoute(
+        name: '2fa.magic-link',
+        expiration: now()->addMinutes(30),
+        parameters: [
+            'token' => $token,
+        ]
+    );
+
+    $user->notify(new MagicLinkNotification($link));
+
+    Notification::assertSentTo(
+        notifiable: $user,
+        notification: MagicLinkNotification::class,
+        callback: function ($notification) use (&$magicLink, $user): bool {
+            $magicLink = $notification->toMail($user)->actionUrl;
+
+            return true;
+        }
+    );
+
+    expect($magicLink)->not->toBeNull();
+
+    $response = $this->withSession([
+        'magic_link_token' => $token,
+        'user_id'          => $user->id,
+    ])->get($magicLink);
+
+    $this->assertAuthenticatedAs($user);
 
     expect(Auth::check())->toBeTrue()
         ->and(Auth::id())->toBe($user->id);
+
+    $response->assertRedirect(route('dashboard'));
 });
 
-it('it should add user to the payload', function (): void {
+it('should redirect to login if token is invalid', function (): void {
     $user = User::factory()->create();
 
-    $task = Login::dispatchSync([
-        'email'    => $user->email,
-        'password' => 'password',
-    ]);
+    $invalidToken = 'invalid-token';
 
-    expect($task->payload)->user->id->toBe($user->id);
+    $response = $this->withSession([
+        'magic_link_token' => 'correct-token',
+        'user_id'          => $user->id,
+    ])->get(route('2fa.magic-link', ['token' => $invalidToken]));
+
+    $this->assertGuest();
+
+    $response->assertRedirect(route('login'));
 });
 
-describe('validations', function (): void {
-    it('should require an email', function (): void {
-        $this->expectException(ValidationException::class);
+it('should add user to the payload', function (): void {
+    $user = User::factory()->create();
 
-        Login::dispatch([
-            'password' => 'password',
-        ]);
-    });
+    session(['user_id' => $user->id]);
 
-    it('should require a password', function (): void {
-        $this->expectException(ValidationException::class);
+    $task = Login::dispatchSync([]);
 
-        Login::dispatch([
-            'email' => 'test@example.com',
-        ]);
-    });
-
-    it('should require a valid email format', function (): void {
-        $this->expectException(ValidationException::class);
-
-        Login::dispatch([
-            'email'    => 'invalid-email',
-            'password' => 'password',
-        ]);
-    });
-
-    it('should fail with invalid credentials', function (): void {
-        $user = User::factory()->create();
-
-        try {
-            Login::dispatch([
-                'email'    => $user->email,
-                'password' => 'wrong-password',
-            ]);
-
-            $this->fail('Expected ValidationException was not thrown');
-        } catch (ValidationException $e) {
-            expect($e->errors())
-                ->toHaveKey('email')
-                ->and($e->errors()['email'])
-                ->toContain(trans('auth.failed'));
-        }
-    });
+    expect($task->payload)->user->id->toBe($user->id);
 });

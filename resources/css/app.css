@@ -1,7 +1,65 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import '../../vendor/tallstackui/tallstackui/css/v4.css';
 
-[x-cloak] {
-    display: none !important;
+@plugin '@tailwindcss/forms';
+
+@source '../../vendor/tallstackui/tallstackui/**/*.php';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --color-peach-50: #FFFAF9;
+    --color-peach-100: #FFF9F2;
+    --color-peach-200: #FFEDDC;
+    --color-peach-300: #FFE0C6;
+    --color-peach-400: #FFD4B0;
+    --color-peach-500: #FFC799;
+    --color-peach-600: #E8B58B;
+    --color-peach-700: #CC9F7A;
+    --color-peach-800: #9F7C5F;
+    --color-peach-900: #785E47;
+    --color-peach-950: #5A4636;
+
+    /* peach invertido */
+    --color-primary-50: #FFFAF9;
+    --color-primary-100: #FFF9F2;
+    --color-primary-200: #FFEDDC;
+    --color-primary-300: #FFE0C6;
+    --color-primary-400: #FFD4B0;
+    --color-primary-500: #FFC799;
+    --color-primary-600: #E8B58B;
+    --color-primary-700: #CC9F7A;
+    --color-primary-800: #9F7C5F;
+    --color-primary-900: #785E47;
+    --color-primary-950: #5A4636;
+
+    --color-dark-50: #FDFDFE;
+    --color-dark-100: #F0F0F1;
+    --color-dark-200: #E0E0E1;
+    --color-dark-300: #CACACA;
+    --color-dark-400: #9C9C9C;
+    --color-dark-500: #787878;
+    --color-dark-600: #434343;
+    --color-dark-700: #323232;
+    --color-dark-800: #232323;
+    --color-dark-900: #181818;
+    --color-dark-950: #0F0F0F;
+
+    /* dark invertido */
+    --color-secondary-50: #0F0F0F;
+    --color-secondary-100: #181818;
+    --color-secondary-200: #232323;
+    --color-secondary-300: #323232;
+    --color-secondary-400: #434343;
+    --color-secondary-500: #787878;
+    --color-secondary-600: #9C9C9C;
+    --color-secondary-700: #CACACA;
+    --color-secondary-800: #E0E0E1;
+    --color-secondary-900: #F0F0F1;
+    --color-secondary-950: #FDFDFE;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));

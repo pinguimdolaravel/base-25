@@ -1,6 +1,8 @@
 <div>
     <x-h1 class="mb-8 flex justify-between">
-        <span>Users</span>
+        <span>
+            {{ __('Users') }}
+        </span>
         <x-button text="Create New User" light sm wire:click="$dispatch('users::create')" />
     </x-h1>
 

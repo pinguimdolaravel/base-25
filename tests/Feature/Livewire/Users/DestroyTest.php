@@ -7,7 +7,7 @@ use App\Livewire\Users\Destroy;
 use Illuminate\Support\Facades\Bus;
 use Livewire\Livewire;
 
-it('should check if the task is being called', function () {
+it('should check if the task is being called', function (): void {
     Bus::fake([DestroyUser::class]);
     $user = App\Models\User::factory()->create();
 

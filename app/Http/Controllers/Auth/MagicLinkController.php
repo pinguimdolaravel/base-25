@@ -19,7 +19,7 @@ class MagicLinkController extends Controller
             ]);
 
             return to_route('dashboard');
-        } catch (InvalidToken $th) {
+        } catch (InvalidToken) {
             return to_route('login');
         }
     }
