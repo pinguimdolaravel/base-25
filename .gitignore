@@ -21,3 +21,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+laradumps.yaml
+bun.lock
+bun.lockd
