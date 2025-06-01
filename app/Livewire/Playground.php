@@ -15,8 +15,8 @@ class Playground extends Component
     {
         $role         = Role::inRandomOrder()->first();
         $randomNumber = random_int(1, 100);
-        $originalName = str_contains($role->name, '::')
-            ? trim(substr($role->name, strrpos($role->name, '::') + 2))
+        $originalName = str_contains((string) $role->name, '::')
+            ? trim(substr((string) $role->name, strrpos((string) $role->name, '::') + 2))
             : $role->name;
         $role->name = "Updated Role :: $randomNumber :: $originalName";
         $role->save();
