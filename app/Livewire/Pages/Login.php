@@ -7,10 +7,12 @@ namespace App\Livewire\Pages;
 use App\Brain\Auth\Tasks\SendMagicLink;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class Login extends Component
 {
+    #[Validate(['email' => 'required|email'])]
     public string $email = '';
 
     public bool $showMessage = false;
