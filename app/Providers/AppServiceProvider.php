@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Providers;
 
+use Override;
 use App\Enums\Can;
-use App\Http\Middleware\CheckImpersonate;
+use Livewire\Livewire;
 use Carbon\CarbonImmutable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use Livewire\Livewire;
-use Override;
+use Opcodes\LogViewer\Facades\LogViewer;
+use App\Http\Middleware\CheckImpersonate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function setupLogViewer(): void
     {
-        // LogViewer::auth(fn ($request) => $request->user()?->is_admin);
+        LogViewer::auth(fn($request) => $request->user()?->is_admin);
     }
 
     /**
