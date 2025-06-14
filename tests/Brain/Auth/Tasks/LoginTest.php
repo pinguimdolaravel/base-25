@@ -7,70 +7,46 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-it('should be able to login', function (): void {
-    $user = User::factory()->create();
+beforeEach(function () {
+    $this->user = User::factory()->create();
 
+    session()->put('user_id', $this->user->id);
+});
+
+it('should be able to login', function (): void {
     Login::dispatch([
-        'email'    => $user->email,
-        'password' => 'password',
+        'email' => $this->user->email,
     ]);
 
     expect(Auth::check())->toBeTrue()
-        ->and(Auth::id())->toBe($user->id);
+        ->and(Auth::id())->toBe($this->user->id);
 });
 
 it('it should add user to the payload', function (): void {
-    $user = User::factory()->create();
-
     $task = Login::dispatchSync([
-        'email'    => $user->email,
+        'email'    => $this->user->email,
         'password' => 'password',
     ]);
 
-    expect($task->payload)->user->id->toBe($user->id);
+    expect($task->payload)->user->id->toBe($this->user->id);
 });
 
 describe('validations', function (): void {
-    it('should require an email', function (): void {
-        $this->expectException(ValidationException::class);
+    it('should throw an exception if user_id is not in session', function (): void {
+        session()->forget('user_id');
 
-        Login::dispatch([
-            'password' => 'password',
-        ]);
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('User ID is required.');
+
+        Login::dispatchSync([]);
     });
 
-    it('should require a password', function (): void {
+    it('should throw an exception if user does not exist', function (): void {
+        session()->put('user_id', 9999);
+
         $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('User not found.');
 
-        Login::dispatch([
-            'email' => 'test@example.com',
-        ]);
-    });
-
-    it('should require a valid email format', function (): void {
-        $this->expectException(ValidationException::class);
-
-        Login::dispatch([
-            'email'    => 'invalid-email',
-            'password' => 'password',
-        ]);
-    });
-
-    it('should fail with invalid credentials', function (): void {
-        $user = User::factory()->create();
-
-        try {
-            Login::dispatch([
-                'email'    => $user->email,
-                'password' => 'wrong-password',
-            ]);
-
-            $this->fail('Expected ValidationException was not thrown');
-        } catch (ValidationException $e) {
-            expect($e->errors())
-                ->toHaveKey('email')
-                ->and($e->errors()['email'])
-                ->toContain(trans('auth.failed'));
-        }
+        Login::dispatchSync([]);
     });
 });
