@@ -20,7 +20,7 @@ test('check if auth process has all the tasks', function (): void {
         ]);
 });
 
-test('login should not be called when CheckToken throws an exception', function () {
+test('login should not be called when CheckToken throws an exception', function (): void {
     Bus::fake([Login::class]);
 
     AuthProcess::dispatch([

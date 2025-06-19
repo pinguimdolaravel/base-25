@@ -81,7 +81,7 @@ test('user implements auditable interface', function (): void {
 
 test('user uses correct traits', function (): void {
     $user   = new User();
-    $traits = class_uses_recursive(get_class($user));
+    $traits = class_uses_recursive($user::class);
 
     expect($traits)->toHaveKey(Auditable::class)
         ->and($traits)->toHaveKey(HasFactory::class)

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Livewire\Users;
 
@@ -16,7 +16,7 @@ class StopImpersonation extends Component
     #[Computed]
     public function user(): User
     {
-        return User::find(Session::get('impersonate_as'));
+        return User::find(Session::get('impersonate_as'))->first();
     }
 
     #[Computed]
