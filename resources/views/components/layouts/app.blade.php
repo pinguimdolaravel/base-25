@@ -4,10 +4,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>{{ $title ?? 'Brain Kit' }}</title>
-        <tallstackui:script />
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
+    <title>{{ $title ?? 'Brain Kit' }}</title>
+    <tallstackui:script />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
 
     <body x-cloak class="flex min-h-screen justify-content-between bg-linear-to-br" 
         x-bind:class="{'dark from-dark-950 dark:to-dark-900 text-dark-50': darkTheme, 'from-dark-50 to-dark-200 text-dark-900': !darkTheme }"
