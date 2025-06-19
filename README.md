@@ -1,3 +1,8 @@
+<p align="center">
+    <a href="https://packagist.org/packages/pinguimdolaravel/base-25"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/pinguimdolaravel/base-25"></a>
+    <a href="https://packagist.org/packages/pinguimdolaravel/base-25"><img alt="Latest Version" src="https://img.shields.io/packagist/v/pinguimdolaravel/base-25"></a>
+    <a href="https://packagist.org/packages/pinguimdolaravel/base-25"><img alt="License" src="https://img.shields.io/packagist/l/pinguimdolaravel/base-25"></a>
+</p>
 
 ## Funcionalidades
 
