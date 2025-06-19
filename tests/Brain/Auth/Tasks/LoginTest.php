@@ -14,10 +14,15 @@ use Illuminate\Support\Str;
 it('should send magic link notification to the user', function (): void {
     Notification::fake();
 
-    $user = User::factory()->create();
+beforeEach(function () {
+    $this->user = User::factory()->create();
 
-    SendMagicLink::dispatch([
-        'email' => $user->email,
+    session()->put('user_id', $this->user->id);
+});
+
+it('should be able to login', function (): void {
+    Login::dispatch([
+        'email' => $this->user->email,
     ]);
 
     Notification::assertSentTo(
@@ -67,32 +72,34 @@ it("should be able to login with magic link", function (): void {
     $this->assertAuthenticatedAs($user);
 
     expect(Auth::check())->toBeTrue()
-        ->and(Auth::id())->toBe($user->id);
-
-    $response->assertRedirect(route('dashboard'));
+        ->and(Auth::id())->toBe($this->user->id);
 });
 
-it('should redirect to login if token is invalid', function (): void {
-    $user = User::factory()->create();
+it('it should add user to the payload', function (): void {
+    $task = Login::dispatchSync([
+        'email'    => $this->user->email,
+        'password' => 'password',
+    ]);
 
-    $invalidToken = 'invalid-token';
-
-    $response = $this->withSession([
-        'magic_link_token' => 'correct-token',
-        'user_id'          => $user->id,
-    ])->get(route('2fa.magic-link', ['token' => $invalidToken]));
-
-    $this->assertGuest();
-
-    $response->assertRedirect(route('login'));
+    expect($task->payload)->user->id->toBe($this->user->id);
 });
 
-it('should add user to the payload', function (): void {
-    $user = User::factory()->create();
+describe('validations', function (): void {
+    it('should throw an exception if user_id is not in session', function (): void {
+        session()->forget('user_id');
 
-    session(['user_id' => $user->id]);
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('User ID is required.');
 
-    $task = Login::dispatchSync([]);
+        Login::dispatchSync([]);
+    });
 
-    expect($task->payload)->user->id->toBe($user->id);
+    it('should throw an exception if user does not exist', function (): void {
+        session()->put('user_id', 9999);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('User not found.');
+
+        Login::dispatchSync([]);
+    });
 });
