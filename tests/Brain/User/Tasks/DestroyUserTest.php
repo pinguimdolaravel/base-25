@@ -6,7 +6,7 @@ use App\Brain\User\Tasks\DestroyUser;
 
 use function Pest\Laravel\assertSoftDeleted;
 
-it('should be able to delete a user', function () {
+it('should be able to delete a user', function (): void {
     $user = App\Models\User::factory()->create();
 
     DestroyUser::dispatch([
@@ -19,7 +19,7 @@ it('should be able to delete a user', function () {
     ]);
 });
 
-it('should throw an exception when is the logged user', function () {
+it('should throw an exception when is the logged user', function (): void {
     $user = App\Models\User::factory()->create();
 
     DestroyUser::dispatch([

@@ -1,10 +1,10 @@
 <div>
-    <x-table :headers="$this->headers" :rows="$this->rows" filter>
+    <x-table :headers="$this->headers" :rows="$this->rows" filter loading>
         @interact('column_action', $row)
-            <x-button.circle color="gray" sm flat icon="eye" href="{{ route('users.show', $row->id) }}" />
+            <x-button.circle color="dark" sm flat icon="eye" href="{{ route('users.show', $row->id) }}" />
 
             <x-button.circle
-                color="gray"
+                color="dark"
                 sm
                 flat
                 icon="pencil"

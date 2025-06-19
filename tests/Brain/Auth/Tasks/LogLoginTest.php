@@ -6,7 +6,7 @@ use App\Brain\Auth\Tasks\LogLogin;
 
 use function Pest\Laravel\assertDatabaseHas;
 
-it('should create a new login record', function () {
+it('should create a new login record', function (): void {
     $user = App\Models\User::factory()->create();
 
     LogLogin::dispatchSync([
@@ -20,7 +20,7 @@ it('should create a new login record', function () {
     ]);
 });
 
-it('should run in a queue', function () {
+it('should run in a queue', function (): void {
     expect(LogLogin::class)
         ->toImplement(Illuminate\Contracts\Queue\ShouldQueue::class);
 });
