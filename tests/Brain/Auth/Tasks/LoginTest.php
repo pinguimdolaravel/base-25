@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-
-it('should send magic link notification to the user', function (): void {
-    Notification::fake();
+use Illuminate\Validation\ValidationException;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -21,12 +19,14 @@ beforeEach(function () {
 });
 
 it('should be able to login', function (): void {
-    Login::dispatch([
+    Notification::fake();
+
+    SendMagicLink::dispatch([
         'email' => $this->user->email,
     ]);
 
     Notification::assertSentTo(
-        notifiable: $user,
+        notifiable: $this->user,
         notification: MagicLinkNotification::class
     );
 });
@@ -72,14 +72,11 @@ it("should be able to login with magic link", function (): void {
     $this->assertAuthenticatedAs($user);
 
     expect(Auth::check())->toBeTrue()
-        ->and(Auth::id())->toBe($this->user->id);
+        ->and(Auth::id())->toBe($user->id);
 });
 
 it('it should add user to the payload', function (): void {
-    $task = Login::dispatchSync([
-        'email'    => $this->user->email,
-        'password' => 'password',
-    ]);
+    $task = Login::dispatchSync([]);
 
     expect($task->payload)->user->id->toBe($this->user->id);
 });

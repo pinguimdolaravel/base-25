@@ -6,6 +6,7 @@ namespace App\Brain\Auth\Tasks;
 
 use App\Models\User;
 use Brain\Task;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -27,6 +28,7 @@ class Login extends Task
             ]);
         }
 
+        /** @var ?Authenticatable $user */
         $user = User::query()->find($userId);
 
         if (! $user) {
